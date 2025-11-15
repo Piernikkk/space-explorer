@@ -1,5 +1,5 @@
+import Link from "next/link";
 import StarryBackground from "./components/StarryBackground";
-import CustomCursor from "./components/CustomCursor";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
@@ -18,9 +18,11 @@ export default function Home() {
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
             <Button size={"xl"}>Start Exploring</Button>
 
-            <Button size={"xl"} variant={"secondary"}>
-              View on Github
-            </Button>
+            <Link href={"https://github.com/Piernikkk/space-explorer"} target="_blank">
+              <Button size={"xl"} variant={"secondary"}>
+                View on Github
+              </Button>
+            </Link>
           </div>
         </div>
       </main>
