@@ -1,10 +1,12 @@
+mod axum_error;
 mod init;
 mod routes;
 mod state;
 
 use color_eyre::eyre::{Context, Result};
+use reqwest::Client;
 use tracing::info;
-use utoipa::{OpenApi, openapi};
+use utoipa::OpenApi;
 
 use crate::{
     init::{init_axum, init_listener, init_redis, init_tracing},
@@ -25,7 +27,9 @@ async fn main() -> Result<()> {
 
     let redis = init_redis().await?;
 
-    let app_state = AppState { redis };
+    let reqwest = Client::new();
+
+    let app_state = AppState { redis, reqwest };
 
     let app = init_axum(app_state).await?;
     let listener = init_listener().await?;

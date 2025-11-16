@@ -42,3 +42,4 @@ visible = "0.0.1"
 futures = "0.3.31"
 validator = { version = "0.20.0", features = ["derive"] }
 axum-valid = "0.24.0"
+reqwest = { version = "0.12.24", features = ["json"] }
