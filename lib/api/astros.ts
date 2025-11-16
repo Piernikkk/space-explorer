@@ -13,3 +13,10 @@ export default function useAstros() {
 
   return astros;
 }
+
+export type TAstro = {
+  craft: string;
+  name: string;
+};
+
+export type AstrosRes = TAstro[];

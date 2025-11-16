@@ -45,7 +45,6 @@ export function DialogManager({ children }: { children: ReactNode }) {
     ) => {
       setDialogs((d) => {
         const dialog = d[dialogName];
-        console.log(d);
 
         if (!dialog || dialog.state == "closed") {
           return d;

@@ -1,4 +1,4 @@
-import SpaceShip from "@/components/SpaceShip";
+import SpaceShip from "@/components/Spaceship";
 
 export default function MainPage() {
   return (
