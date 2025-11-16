@@ -7,14 +7,16 @@ type DefaultDialogDefinition = {
   returnValue: unknown;
 };
 
-export type DialogDefinition<T extends DefaultDialogDefinition = DefaultDialogDefinition> = {
+export type DialogDefinition<
+  T extends DefaultDialogDefinition = DefaultDialogDefinition,
+> = {
   payload: T["payload"] | undefined;
   returnValue: T["returnValue"] | undefined;
 };
 
 export type DialogName = keyof Dialogs;
 export type DialogPayload<T extends DialogName> = Dialogs[T]["payload"];
-export type DialogState = "opened" | "closing";
+export type DialogState = "opened" | "closed";
 export type DialogReturnValue<T extends DialogName> = Dialogs[T]["returnValue"];
 
 type DialogStateItem<T extends DialogName> = {
@@ -29,11 +31,19 @@ export type DialogsStates = {
 };
 
 export type TDialogContext = {
-  show: <T extends DialogName>(name: T, payload: DialogPayload<T>) => Promise<DialogReturnValue<T>>;
-  hide: <T extends DialogName>(name: T, returnValue: DialogReturnValue<T>) => void;
+  show: <T extends DialogName>(
+    name: T,
+    payload: DialogPayload<T>,
+  ) => Promise<DialogReturnValue<T>>;
+  hide: <T extends DialogName>(
+    name: T,
+    returnValue: DialogReturnValue<T>,
+  ) => void;
 };
 
-export type DialogProps<T extends DialogName> = ComponentProps<typeof DialogPrimitive.Root> & {
+export type DialogProps<T extends DialogName> = ComponentProps<
+  typeof DialogPrimitive.Root
+> & {
   payload: DialogPayload<T>;
   name: T;
 };

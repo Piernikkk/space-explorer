@@ -6,10 +6,8 @@ import {
   DialogProps,
   DialogReturnValue,
   DialogsStates,
-  DialogState,
   TDialogContext,
 } from "./types";
-import { DIALOG_CLOSE_DURRATION } from "../config";
 import { DialogBindings } from "./dialogs";
 
 export const DialogContext = createContext<TDialogContext>({
@@ -21,7 +19,10 @@ export function DialogManager({ children }: { children: ReactNode }) {
   const [dialogs, setDialogs] = useState<DialogsStates>({});
 
   const show = useCallback(
-    <T extends DialogName>(dialogName: T, dialogPayload: DialogPayload<T>): Promise<DialogReturnValue<T>> => {
+    <T extends DialogName>(
+      dialogName: T,
+      dialogPayload: DialogPayload<T>,
+    ): Promise<DialogReturnValue<T>> => {
       return new Promise((resolve) => {
         setDialogs((d) => ({
           ...d,
@@ -37,37 +38,37 @@ export function DialogManager({ children }: { children: ReactNode }) {
     [],
   );
 
-  const hide = useCallback(<T extends DialogName>(dialogName: T, returnValue?: DialogReturnValue<T>) => {
-    setDialogs((d) => {
-      const dialog = d[dialogName];
+  const hide = useCallback(
+    <T extends DialogName>(
+      dialogName: T,
+      returnValue?: DialogReturnValue<T>,
+    ) => {
+      setDialogs((d) => {
+        const dialog = d[dialogName];
+        console.log(d);
 
-      if (!dialog || dialog.state == "closing") {
-        return d;
-      }
+        if (!dialog || dialog.state == "closed") {
+          return d;
+        }
 
-      requestAnimationFrame(() => {
-        (dialog.resolve as (value: DialogReturnValue<T>) => void)(returnValue);
-      });
-
-      setTimeout(() => {
-        setDialogs((timeoutD) => {
-          if (d[dialogName]?.state == "closing") {
-            const newDialogs = timeoutD;
-            delete newDialogs[dialogName];
-            return newDialogs;
-          }
-          return timeoutD;
+        requestAnimationFrame(() => {
+          (dialog.resolve as (value: DialogReturnValue<T>) => void)(
+            returnValue,
+          );
         });
-      }, DIALOG_CLOSE_DURRATION);
 
-      return { ...d, [dialogName]: { ...dialog, state: "closing" } };
-    });
-  }, []);
+        return { ...d, [dialogName]: { ...dialog, state: "closed" } };
+      });
+    },
+    [],
+  );
 
   return (
     <DialogContext.Provider value={{ show, hide }}>
       {Object.values(dialogs).map((d) => {
-        const DialogComponent = DialogBindings[d.name] as FC<DialogProps<typeof d.name>>;
+        const DialogComponent = DialogBindings[d.name] as FC<
+          DialogProps<typeof d.name>
+        >;
 
         return (
           <DialogComponent
