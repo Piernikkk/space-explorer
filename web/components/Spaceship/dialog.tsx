@@ -4,34 +4,36 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { AstrosAtom } from "@/lib/atoms/astrosAtom";
 import { useAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
-import useAstros, { AstrosRes } from "@/lib/api/astros";
 import AstroTile from "./AstroTile";
 import { Combobox } from "../ui/combobox";
 import { Button } from "../ui/button";
 import { IconFilterOff } from "@tabler/icons-react";
+import { useQuery } from "@tanstack/react-query";
+import { $api } from "@/lib/providers/api";
 
 export default function ShpaceshipDialog({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Root> &
   DialogProps<"SpaceShipDialog">) {
   const [astros, setAstros] = useAtom(AstrosAtom);
-  const astrosApi = useAstros();
+
+  const { data: astrosres } = useQuery(
+    $api.queryOptions(
+      "get",
+      "/api/astros",
+      {},
+      {
+        enabled: astros == null,
+      },
+    ),
+  );
 
   useEffect(() => {
-    (async () => {
-      if (astros == null) {
-        await astrosApi.get("/").then(
-          (res) => {
-            console.log(res.data);
-            setAstros(res.data.people as AstrosRes);
-          },
-          () => {
-            console.error("something went wrong when fetching astros");
-          },
-        );
-      }
-    })();
-  }, []);
+    if (!astrosres) {
+      return;
+    }
+    setAstros(astrosres.people);
+  }, [astrosres]);
 
   const spaceships = useMemo(() => {
     if (!astros) return [];

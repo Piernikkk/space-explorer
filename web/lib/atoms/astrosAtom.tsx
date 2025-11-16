@@ -1,4 +1,4 @@
 import { atom } from "jotai";
-import { AstrosRes } from "../api/astros";
+import { AstrosRes } from "../providers/types";
 
-export const AstrosAtom = atom<AstrosRes | null>(null);
+export const AstrosAtom = atom<AstrosRes["people"] | null>(null);

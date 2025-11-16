@@ -4,6 +4,7 @@ import "./globals.css";
 import StarryBackground from "@/components/StarryBackground";
 import { DialogManager } from "@/lib/dialogManager";
 import { ThemeProvider } from "next-themes";
+import Query from "@/lib/providers/QueryClient";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,17 +33,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} ${spaceMono.variable} antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div className="relative min-h-screen min-w-screen overflow-hidden">
-            <DialogManager>
-              <StarryBackground />
-              {children}
-            </DialogManager>
-          </div>
-        </ThemeProvider>
-      </body>
-    </html>
+    <Query>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} ${spaceMono.variable} antialiased`}>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <div className="relative min-h-screen min-w-screen overflow-hidden">
+              <DialogManager>
+                <StarryBackground />
+                {children}
+              </DialogManager>
+            </div>
+          </ThemeProvider>
+        </body>
+      </html>
+    </Query>
   );
 }
