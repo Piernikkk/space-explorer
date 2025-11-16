@@ -1,6 +1,7 @@
 use std::env;
 
 use axum::{Extension, Json};
+use fred::{prelude::KeysInterface, types::Expiration};
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 use utoipa_axum::{router::OpenApiRouter, routes};
@@ -34,6 +35,14 @@ pub struct ApiRes {
     tag = "Auth"
 )]
 async fn get_astros(Extension(state): Extension<AppState>) -> AxumResult<Json<ApiRes>> {
+    let cache: Option<String> = state.redis.get("astros").await?;
+
+    if let Some(cached_data) = cache {
+        if let Ok(astros) = serde_json::from_str::<ApiRes>(&cached_data) {
+            return Ok(Json(astros));
+        }
+    }
+
     let astros = state
         .reqwest
         .get(env::var("ASTRO_URL").unwrap())
@@ -41,6 +50,19 @@ async fn get_astros(Extension(state): Extension<AppState>) -> AxumResult<Json<Ap
         .await?
         .json::<ApiRes>()
         .await?;
+
+    if let Ok(serialized) = serde_json::to_string(&astros) {
+        let _: () = state
+            .redis
+            .set(
+                "astros",
+                serialized,
+                Some(Expiration::EX(3600)),
+                None,
+                false,
+            )
+            .await?;
+    }
 
     Ok(Json(astros))
 }
