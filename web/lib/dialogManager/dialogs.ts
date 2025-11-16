@@ -1,12 +1,9 @@
 import ShpaceshipDialog from "@/components/Spaceship/dialog";
 import { DialogComponents, DialogDefinition } from "./types";
-import { AstrosRes } from "../api/astros";
 
 export type Dialogs = {
   SpaceShipDialog: DialogDefinition<{
-    payload: {
-      astro: AstrosRes;
-    };
+    payload: undefined;
     returnValue: undefined;
   }>;
 };

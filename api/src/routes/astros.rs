@@ -13,26 +13,26 @@ pub fn routes() -> OpenApiRouter<AppState> {
 }
 
 #[derive(Deserialize, ToSchema, Clone, Serialize)]
-pub struct Astros {
+struct Astros {
     name: String,
     craft: String,
 }
 
 #[derive(Deserialize, ToSchema, Clone, Serialize)]
-pub struct ApiRes {
+struct ApiRes {
     people: Vec<Astros>,
     message: String,
     number: u32,
 }
 
-/// Get user details
+/// Get astronauts currently in space
 #[utoipa::path(
     method(get),
     path = "/",
     responses(
         (status = OK, description = "Success", body = ApiRes, content_type = "application/json"),
     ),
-    tag = "Auth"
+    tag = "Astronauts"
 )]
 async fn get_astros(Extension(state): Extension<AppState>) -> AxumResult<Json<ApiRes>> {
     let cache: Option<String> = state.redis.get("astros").await?;
