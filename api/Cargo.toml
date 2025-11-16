@@ -1,0 +1,44 @@
+[package]
+name = "api"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = { version = "0.8.6", features = ["macros", "ws"] }
+axum-oidc = { git = "https://github.com/pfzetto/axum-oidc.git", branch = "pfzetto" }
+color-eyre = "0.6.5"
+dotenvy = "0.15.7"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.145"
+tokio = { version = "1.47.1", features = ["full"] }
+tower =  { version = "0.5.2", features = ["full", "tokio", "log"] }
+tracing = "0.1.41"
+tracing-error = "0.2.1"
+tracing-subscriber = { version = "0.3.20", features = [
+    "chrono",
+    "json",
+    "env-filter",
+    "local-time",
+    "serde",
+    "serde_json",
+    "time",
+] }
+utoipa =  { version = "5.4.0", features = ["axum_extras", "chrono"] }
+utoipa-axum = "0.2.0"
+utoipa-rapidoc = { version = "6.0.0", features = ["axum"] }
+utoipa-redoc = { version = "6.0.0", features = ["axum"] }
+utoipa-scalar = { version = "0.3.0", features = ["axum"] }
+chrono = { version = "0.4.42", features = ["serde"] }
+http = "1.3.1"
+http-serde-ext = "1.0.2"
+config = "0.15.18"
+strum = { version = "0.27.2", features = ["derive"] }
+toml = "0.9.7"
+fred =  { version = "10.1.0", features = ["partial-tracing", "serde-json", "replicas", "enable-rustls-ring"] }
+bson = { version = "3.0.0", features = ["chrono-0_4"] }
+sha2 = "0.10.9"
+partial_struct = "0.4.5"
+visible = "0.0.1"
+futures = "0.3.31"
+validator = { version = "0.20.0", features = ["derive"] }
+axum-valid = "0.24.0"
