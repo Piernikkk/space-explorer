@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Space_Mono } from "next/font/google";
 import "./globals.css";
+import StarryBackground from "@/components/StarryBackground";
+import { DialogManager } from "@/lib/dialogManager";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +33,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} ${spaceMono.variable} antialiased`}>
-        {children}
+        <div className="relative min-h-screen min-w-screen overflow-hidden">
+          <DialogManager>
+            <StarryBackground />
+            {children}
+          </DialogManager>
+        </div>
       </body>
     </html>
   );

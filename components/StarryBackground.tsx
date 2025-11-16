@@ -184,7 +184,7 @@ export default function StarryBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-0 cursor-none bg-linear-to-b from-[#000044]  to-[#000000] touch-none"
+      className="fixed inset-0 cursor-none bg-linear-to-b from-[#000044]  to-[#000000] touch-none z-[-1]"
     />
   );
 }
