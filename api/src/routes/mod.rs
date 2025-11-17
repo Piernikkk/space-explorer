@@ -1,6 +1,7 @@
 mod apod;
 mod astros;
 mod health;
+mod mars_weather;
 
 use utoipa::OpenApi;
 use utoipa_axum::router::OpenApiRouter;
