@@ -1,6 +1,7 @@
 use std::{collections::HashMap, env};
 
 use axum::{Extension, Json};
+use color_eyre::eyre::Context;
 use fred::{prelude::KeysInterface, types::Expiration};
 use serde::{Deserialize, Deserializer, Serialize};
 use utoipa::ToSchema;
@@ -118,7 +119,8 @@ async fn get_mars_weather(
             ("api_key", &env::var("NASA_API_KEY").unwrap()),
         ])
         .send()
-        .await?
+        .await
+        .wrap_err("error sending request for url https://api.nasa.gov/insight_weather")?
         .json::<NasaMarsWeatherResponse>()
         .await?;
 
