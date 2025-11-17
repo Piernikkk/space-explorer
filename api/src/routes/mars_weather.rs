@@ -119,7 +119,11 @@ async fn get_mars_weather(
             ("api_key", &env::var("NASA_API_KEY").unwrap()),
         ])
         .send()
-        .await
+        .await;
+
+    dbg!(&nasa_response);
+
+    let nasa_response = nasa_response
         .wrap_err("error sending request for url https://api.nasa.gov/insight_weather")?
         .json::<NasaMarsWeatherResponse>()
         .await?;
