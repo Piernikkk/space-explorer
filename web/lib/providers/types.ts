@@ -5,3 +5,6 @@ export type AstrosRes =
 
 export type APODRes =
   paths["/api/apod"]["get"]["responses"]["200"]["content"]["application/json"];
+
+export type MarsWeatherRes =
+  paths["/api/mars_weather"]["get"]["responses"]["200"]["content"]["application/json"];

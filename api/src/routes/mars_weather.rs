@@ -14,6 +14,11 @@ pub fn routes() -> OpenApiRouter<AppState> {
 
 #[derive(Debug, Deserialize, Serialize, ToSchema)]
 pub struct MarsWeatherResponse {
+    pub sols: HashMap<String, SolData>,
+}
+
+#[derive(Debug, Deserialize)]
+struct NasaMarsWeatherResponse {
     pub sol_keys: Vec<String>,
     #[serde(flatten, deserialize_with = "deserialize_sols")]
     pub sols: HashMap<String, SolData>,
@@ -24,6 +29,7 @@ where
     D: Deserializer<'de>,
 {
     let mut map = HashMap::<String, serde_json::Value>::deserialize(deserializer)?;
+    map.remove("sol_keys");
     map.remove("validity_checks");
 
     let sols: HashMap<String, SolData> = map
@@ -69,6 +75,7 @@ pub struct Measurement {
 #[derive(Debug, Deserialize, Serialize, ToSchema)]
 pub struct WindDirection {
     #[serde(flatten)]
+    #[schema(additional_properties = true, value_type = HashMap<String, DirectionData>)]
     pub directions: HashMap<String, DirectionData>,
     pub most_common: DirectionData,
 }
@@ -102,7 +109,7 @@ async fn get_mars_weather(
         }
     }
 
-    let mars_weather = state
+    let nasa_response = state
         .reqwest
         .get(env::var("MARS_WEATHER_URL").unwrap())
         .query(&[
@@ -112,8 +119,12 @@ async fn get_mars_weather(
         ])
         .send()
         .await?
-        .json::<MarsWeatherResponse>()
+        .json::<NasaMarsWeatherResponse>()
         .await?;
+
+    let mars_weather = MarsWeatherResponse {
+        sols: nasa_response.sols,
+    };
 
     if let Ok(serialized) = serde_json::to_string(&mars_weather) {
         let _: () = state

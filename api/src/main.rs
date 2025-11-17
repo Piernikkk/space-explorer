@@ -14,7 +14,13 @@ use crate::{
 };
 
 #[derive(OpenApi)]
-#[openapi()]
+#[openapi(components(schemas(
+    routes::mars_weather::MarsWeatherResponse,
+    routes::mars_weather::SolData,
+    routes::mars_weather::Measurement,
+    routes::mars_weather::WindDirection,
+    routes::mars_weather::DirectionData,
+)))]
 struct ApiDoc;
 
 #[tokio::main]
