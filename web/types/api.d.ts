@@ -4,6 +4,23 @@
  */
 
 export interface paths {
+    "/api/apod": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get astronomy picture of the day */
+        get: operations["get_apod"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/astros": {
         parameters: {
             query?: never;
@@ -11,7 +28,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get user details */
+        /** Get astronauts currently in space */
         get: operations["get_astros"];
         put?: never;
         post?: never;
@@ -55,6 +72,11 @@ export interface components {
             craft: string;
             name: string;
         };
+        Res: {
+            explanation: string;
+            hdurl: string;
+            title: string;
+        };
     };
     responses: never;
     parameters: never;
@@ -64,6 +86,26 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    get_apod: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Res"];
+                };
+            };
+        };
+    };
     get_astros: {
         parameters: {
             query?: never;

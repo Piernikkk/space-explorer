@@ -1,19 +1,19 @@
 "use client";
 import { useDialogs } from "@/lib/dialogManager";
-import { cn } from "@/lib/utils";
 import BasePageElement, { BaseProps } from "../BasePageElement";
+import { cn } from "@/lib/utils";
 
-export default function SpaceShip({ className }: BaseProps) {
+export default function Telescope({ className }: BaseProps) {
   const dialogs = useDialogs();
 
   return (
     <BasePageElement
-      onClick={() => dialogs.show("SpaceShipDialog")}
+      onClick={() => dialogs.show("Telescope")}
       className={cn("cursor-pointer", className)}
-      imageSrc="/iss.png"
-      imageAlt="spaceship"
-      imageHeight={250}
-      imageWidth={250}
+      imageSrc="/telescope.png"
+      imageAlt="telescope"
+      imageHeight={100}
+      imageWidth={222}
     />
   );
 }

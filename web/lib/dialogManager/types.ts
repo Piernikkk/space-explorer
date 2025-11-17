@@ -33,7 +33,7 @@ export type DialogsStates = {
 export type TDialogContext = {
   show: <T extends DialogName>(
     name: T,
-    payload: DialogPayload<T>,
+    payload?: DialogPayload<T>,
   ) => Promise<DialogReturnValue<T>>;
   hide: <T extends DialogName>(
     name: T,
