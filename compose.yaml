@@ -1,13 +1,49 @@
 services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+      args:
+        PROJECT_NAME: api
+        BUILDPLATFORM: linux/amd64
+    depends_on:
+      - valkey
+    volumes:
+      - ./.env:/.env:rw
+    restart: unless-stopped
+    networks:
+      - default
+      - proxy
+    labels:
+      traefik.enable: true
+      traefik.port: 4000
+      traefik.http.routers.space-explorer-api.rule: "Host(`space.piernik.rocks`) && (PathPrefix(`/api`) || PathPrefix(`/socket.io`) || PathPrefix(`/docs`))"
+      traefik.http.services.space-explorer-api.loadbalancer.server.port: 4000
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+    restart: unless-stopped
+    networks:
+      - default
+      - proxy
+    labels:
+      traefik.enable: true
+      traefik.port: 3000
+      traefik.http.services.space-explorer-web.loadbalancer.server.port: "3000"
+      traefik.http.routers.space-explorer-web.rule: "Host(`space.piernik.rocks`)"
   valkey:
     image: valkey/valkey:latest
     restart: unless-stopped
-    ports:
-      - 6379:6379
     volumes:
       - ./data/valkey:/data
     networks:
       - default
 
 networks:
+  proxy:
+    name: proxy-network
+    external: true
   default:

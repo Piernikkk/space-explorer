@@ -41,7 +41,10 @@ _If you want to use something different than traefik, you need to adjust compose
 
 ### Run:
 
-#### First you need to create .env file in repo's root folder, this file is mounted inside docker container.
+First you need to create .env file in repo's root folder, this file is mounted inside docker container.
+When creating `.env` file, you can base on `.env.example` file.
+
+You can obtain a free API key for NASA API [here](https://api.nasa.gov/).
 
 ```bash
 docker-compose up -d
@@ -57,6 +60,11 @@ docker-compose up -d
 - [mongodb](https://www.mongodb.com/docs/manual/installation/)
 
 ### Run:
+
+**walkey (redis)**
+```bash
+docker-compose -f compose-dev.yaml up -d
+```
 
 **web**
 
