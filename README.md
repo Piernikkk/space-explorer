@@ -19,6 +19,9 @@ This Project is both api and web.
  - [Open Notify](http://open-notify.org/) - people in space
  - [NASA APOD API](https://api.nasa.gov/planetary/apod) - picture of the day
  - [InSight: Mars Weather Service API](https://mars.nasa.gov/insight/weather/) - mars weather
+ 
+> [!NOTE]
+> I needed to host apod api by myself, because NASA's api had not been updated for a long time and it can't handle videos properly anymore. 
 
 ## **Documentation:**
 

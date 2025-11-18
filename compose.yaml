@@ -50,11 +50,6 @@ services:
     networks:
       - default
       - proxy
-    labels:
-      traefik.enable: true
-      traefik.port: 8000
-      traefik.http.routers.apod-nasa-api.rule: "Host(`apod.piernik.rocks`"
-      traefik.http.services.apod-nasa-api.loadbalancer.server.port: 8000
 
 networks:
   proxy:
