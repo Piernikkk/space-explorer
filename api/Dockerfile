@@ -45,7 +45,11 @@ RUN xx-verify --static target/$(xx-cargo --print-target-triple)/release/${PROJEC
 RUN mkdir -p /app/target/release
 RUN cp target/$(xx-cargo --print-target-triple)/release/${PROJECT_NAME} /app/output
 
-FROM scratch AS runtime
+FROM alpine:latest AS runtime
+
+# Install CA certificates for SSL/TLS verification
+RUN apk add --no-cache ca-certificates
+
 COPY --from=builder /app/output /app/api
 
 EXPOSE 4000

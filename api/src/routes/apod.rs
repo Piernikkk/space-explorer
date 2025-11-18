@@ -1,6 +1,7 @@
 use std::env;
 
 use axum::{Extension, Json};
+use color_eyre::eyre::Context;
 use fred::{prelude::KeysInterface, types::Expiration};
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
@@ -47,7 +48,8 @@ async fn get_apod(Extension(state): Extension<AppState>) -> AxumResult<Json<Res>
             // ("api_key", &env::var("NASA_API_KEY").unwrap()),
         ])
         .send()
-        .await?
+        .await
+        .wrap_err("error sending request for url https://api.nasa.gov/planetary/apod")?
         .json::<Res>()
         .await?;
 
