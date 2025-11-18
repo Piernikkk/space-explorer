@@ -117,8 +117,10 @@ export interface components {
         };
         Res: {
             explanation: string;
-            hdurl: string;
+            hdurl?: string | null;
+            media_type: string;
             title: string;
+            url: string;
         };
         SolData: {
             AT?: null | components["schemas"]["Measurement"];

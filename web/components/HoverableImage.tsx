@@ -1,5 +1,4 @@
 import Image, { ImageProps } from "next/image";
-import { useRef } from "react";
 
 interface HoverableImageProps extends ImageProps {
   desctiption: string;
