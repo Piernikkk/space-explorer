@@ -15,8 +15,10 @@ pub fn routes() -> OpenApiRouter<AppState> {
 #[derive(Deserialize, ToSchema, Clone, Serialize)]
 struct Res {
     explanation: String,
-    hdurl: String,
+    hdurl: Option<String>,
+    url: String,
     title: String,
+    media_type: String,
 }
 
 /// Get astronomy picture of the day
@@ -42,7 +44,7 @@ async fn get_apod(Extension(state): Extension<AppState>) -> AxumResult<Json<Res>
         .get(env::var("APOD_URL").unwrap())
         .query(&[
             ("thumbs", "true"),
-            ("api_key", &env::var("NASA_API_KEY").unwrap()),
+            // ("api_key", &env::var("NASA_API_KEY").unwrap()),
         ])
         .send()
         .await?

@@ -1,0 +1,4 @@
+[submodule "apod_api"]
+	path = apod_api
+	url = https://github.com/jsolly/apod-api.git
+	branch = patch-1

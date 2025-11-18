@@ -8,6 +8,7 @@ services:
         BUILDPLATFORM: linux/amd64
     depends_on:
       - valkey
+      - apod-nasa-api
     volumes:
       - ./.env:/.env:rw
     restart: unless-stopped
@@ -41,6 +42,19 @@ services:
       - ./data/valkey:/data
     networks:
       - default
+  apod-nasa-api:
+    build:
+      context: ./apod_api
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    networks:
+      - default
+      - proxy
+    labels:
+      traefik.enable: true
+      traefik.port: 8000
+      traefik.http.routers.apod-nasa-api.rule: "Host(`apod.piernik.rocks`"
+      traefik.http.services.apod-nasa-api.loadbalancer.server.port: 8000
 
 networks:
   proxy:
