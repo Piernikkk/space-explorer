@@ -35,6 +35,11 @@ services:
       traefik.port: 3000
       traefik.http.services.space-explorer-web.loadbalancer.server.port: "3000"
       traefik.http.routers.space-explorer-web.rule: "Host(`space.piernik.rocks`)"
+      traefik.http.routers.space-explorer-web.middlewares: "space-explorer-web-headers"
+      traefik.http.middlewares.space-explorer-web-headers.headers.contentSecurityPolicy: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' wss: ws:; frame-src 'self';"
+      traefik.http.middlewares.space-explorer-web-headers.headers.customResponseHeaders.X-Content-Type-Options: "nosniff"
+      traefik.http.middlewares.space-explorer-web-headers.headers.customResponseHeaders.X-Frame-Options: "SAMEORIGIN"
+      traefik.http.middlewares.space-explorer-web-headers.headers.customResponseHeaders.Referrer-Policy: "strict-origin-when-cross-origin"
   valkey:
     image: valkey/valkey:latest
     restart: unless-stopped
